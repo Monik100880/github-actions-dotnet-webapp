@@ -1,0 +1,37 @@
+name: Build e Teste .NET por Push e Agendamento
+
+on:
+  push:
+  schedule:
+    - cron: '0 * * * *'  # Executa todo início de hora
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Action pré-existente: faz o checkout do código
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      # ✅ Action pré-existente: instala o .NET SDK
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # ✅ Script personalizado: restaura dependências
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      # ✅ Script personalizado: compila o projeto
+      - name: Compilar
+        run: dotnet build --no-restore
+
+      # ✅ Script personalizado: executa testes
+      - name: Rodar testes
+        run: dotnet test --no-build --verbosity normal
+
+      # ✅ Script personalizado: exibe uma mensagem no final
+      - name: Mensagem final personalizada
+        run: echo "Workflow concluído com sucesso!"
