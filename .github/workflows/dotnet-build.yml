@@ -1,37 +1,39 @@
-name: Build e Teste .NET por Push e Agendamento
+name: Build e Teste do Projeto .NET
 
+# 📌 Gatilhos para iniciar o workflow
 on:
-  push:
-  schedule:
-    - cron: '0 * * * *'  # Executa todo início de hora
+  push:               # Quando alguém faz push no repositório
+  schedule:           # Quando deve rodar automaticamente (cron: minuto, hora, dia, mês, dia-da-semana)
+    - cron: '0 * * * *'   # A cada hora (minuto 0 de toda hora)
 
+# 🚀 Definição do job (etapa de execução)
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest   # Ambiente onde o workflow vai rodar
 
     steps:
-      # ✅ Action pré-existente: faz o checkout do código
+      # ✅ Action pré-existente
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      # ✅ Action pré-existente: instala o .NET SDK
+      # ✅ Action para instalar o .NET SDK
       - name: Instalar .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      # ✅ Script personalizado: restaura dependências
+      # ✅ Script personalizado: restaurar dependências
       - name: Restaurar dependências
         run: dotnet restore
 
-      # ✅ Script personalizado: compila o projeto
-      - name: Compilar
+      # ✅ Script personalizado: compilar projeto
+      - name: Compilar projeto
         run: dotnet build --no-restore
 
-      # ✅ Script personalizado: executa testes
-      - name: Rodar testes
+      # ✅ Script personalizado: rodar testes
+      - name: Testar projeto
         run: dotnet test --no-build --verbosity normal
 
-      # ✅ Script personalizado: exibe uma mensagem no final
-      - name: Mensagem final personalizada
-        run: echo "Workflow concluído com sucesso!"
+      # ✅ Mensagem personalizada
+      - name: Finalização
+        run: echo "Workflow finalizado com sucesso!"
