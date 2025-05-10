@@ -1,42 +1,34 @@
 name: Build e Teste do Projeto .NET
 
-# 📌 Gatilhos para iniciar o workflow
 on:
-  push:               # Quando alguém faz push no repositório
-  schedule:           # Quando deve rodar automaticamente (cron: minuto, hora, dia, mês, dia-da-semana)
-    - cron: '0 * * * *'   # A cada hora (minuto 0 de toda hora)
+  push:
+  schedule:
+    - cron: '0 * * * *'
 
-# 🚀 Definição do job (etapa de execução)
 jobs:
   build:
-    runs-on: ubuntu-latest   # Ambiente onde o workflow vai rodar
+    runs-on: ubuntu-latest
 
     steps:
-      # ✅ Action pré-existente
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      # ✅ Action para instalar o .NET SDK
       - name: Instalar .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      # ✅ Script personalizado: restaurar dependências
       - name: Restaurar dependências
         run: dotnet restore
-        working-directory: /workspaces/github-actions-dotnet-webapp/.github/workflows/dotnet-build.yml
+        working-directory: github4women
 
-      # ✅ Script personalizado: compilar projeto
       - name: Compilar projeto
         run: dotnet build --no-restore
-        working-directory: /workspaces/github-actions-dotnet-webapp/.github/workflows/dotnet-build.yml
+        working-directory: github4women
 
-      # ✅ Script personalizado: rodar testes
-      - name: Testar projeto
+      - name: Rodar testes
         run: dotnet test --no-build --verbosity normal
-        working-directory: /workspaces/github-actions-dotnet-webapp/.github/workflows/dotnet-build.yml
+        working-directory: github4women
 
-      # ✅ Mensagem personalizada
       - name: Finalização
-        run: echo "Workflow finalizado com sucesso!"
+        run: echo "✅ Workflow concluído com sucesso!"
