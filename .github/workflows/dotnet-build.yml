@@ -25,17 +25,17 @@ jobs:
       # ✅ Script personalizado: restaurar dependências
       - name: Restaurar dependências
         run: dotnet restore
-        working-directory: path/to/your/project
+        working-directory: dotnet-build-build.yml
 
       # ✅ Script personalizado: compilar projeto
       - name: Compilar projeto
         run: dotnet build --no-restore
-        working-directory: path/to/your/project
+        working-directory: dotnet-build-build.yml
 
       # ✅ Script personalizado: rodar testes
       - name: Testar projeto
         run: dotnet test --no-build --verbosity normal
-        working-directory: path/to/your/project
+        working-directory: dotnet-build-build.yml
 
       # ✅ Mensagem personalizada
       - name: Finalização
